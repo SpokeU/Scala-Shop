@@ -1,0 +1,7 @@
+@(items : List[NewItemRequest])(newItemForm : Form[NewItemRequest])(implicit request:Request[Any])
+
+    @content = {
+        Some Items
+    }
+
+    @admin.mainAdmin("Items")(content)

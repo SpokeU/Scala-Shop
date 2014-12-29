@@ -4,6 +4,15 @@
 
 # Home page
 GET     /                           controllers.Application.index
+GET     /categories                 controllers.CategoryController.all
+POST    /category                   controllers.CategoryController.add
+
+#Items
+
+GET     /items                      controllers.ItemsController.getAll
+GET     /item/:category             controllers.ItemsController.getByCategory(category:String)
+POST    /item                       controllers.ItemsController.add
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

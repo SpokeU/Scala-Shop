@@ -1,0 +1,47 @@
+@import util.FormInputNames
+@addCategoryHtml = {
+    <div data-ng-app="" data-ng-controller="CategoryController">
+        <form data-ng-submit="addCategoryForm('@controllers.CategoryController.add()')">
+            <label>Name:</label>
+            <div class="input-control text">
+                <input type="text" data-ng-model="@FormInputNames.NAME">
+                <button class="btn-clear"></button>
+            </div>
+
+            <label>Image:</label>
+            <div class="input-control  text">
+                <input type="text" data-ng-model="@FormInputNames.IMAGE_LINK">
+                <button class="btn-clear"></button>
+            </div>
+
+            <div class="alert" data-ng-show="response != ''">
+                {{response}}
+            </div>
+
+            <div class="form-actions">
+                <button class="button primary">Ok</button>
+                <button class="button" type="button" onclick="$.Dialog.close ( )">Cancel</button>
+            </div>
+        </form>
+    </div>
+}
+
+
+
+<script type="text/javascript">
+$ ( "#addCategory" ).on ( 'click', function ( ) {
+$.Dialog ( {
+overlay : true,
+shadow : true,
+flat : true,
+icon : '<img src="assets/images/favicon.png">',
+title : 'Create new category',
+padding : 10,
+content : '',
+onShow : function ( _dialog ) {
+var content = _dialog.children ( '.content' ) ;
+    content.html ('@play.twirl.api.Html(addCategoryHtml.toString.replaceAll("(\\r|\\n|\\r\\n)+", "../../../public").replaceAll("'","&apos;"))');
+}
+} ) ;
+} ) ;
+</script>

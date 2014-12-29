@@ -1,0 +1,24 @@
+.form-actions {
+	margin-top: 10px;
+}
+
+.node-toggle {
+	width: 100% !important;
+	height: 100% !important;
+	float: none !important;
+	padding-left: 15px;
+}
+
+.category-item-text {
+	display: inline-block;
+	vertical-align: top;
+	margin: 10px;
+}
+
+.category-image{
+	margin-left: 15px;
+}
+
+.category {
+	background: rgba(204, 198, 255, .5);
+}

@@ -1,12 +1,16 @@
 package controllers
 
-import play.api._
-import play.api.mvc._
+import model.Category
+import play.api.mvc.Action
+import play.api.mvc.Controller
 
 object Application extends Controller {
 
-  def index = Action {
-    Ok(views.html.index("Your new application is ready."))
+  def index = Action { implicit request => {
+    println(Category.fieldExist("id", 10))
+    Ok(views.html.index(request))
   }
+  }
+
 
 }
