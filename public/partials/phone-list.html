@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="row">
+
+  	<div class="col-md-2">
+  		<input ng-model="query">
+  		<select ng-model="sortField">
+  			<option value="name">By Name</option>
+  			<option value="age">By Age</option>
+  		</select>
+  	</div>
+
+  	<div class="col-md-10">
+	    <ul class="phones">
+	    	<li ng-repeat='phone in filterFun = (phones | filter:query | orderBy:sortField)' class="thumbnail">
+	    		<a href="#/phones/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
+	  			<a href="#/phones/{{phone.id}}" class="thumb"><p>Name : {{phone.name}}</p></a>
+	  			<p>Description : {{phone.snippet}}</p>
+	  			<p>Age : {{phone.age}}</p>
+	  		</li>
+	    </ul>
+
+		<p>Total number of phones : {{filterFun.length}}</p>
+	</div>
+  </div>
+</div>

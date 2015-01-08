@@ -1,0 +1,14 @@
+<div>
+        <ul class="unstyled list">
+            <li ng-repeat="brand in brands" class="list-item">
+                <img ng-src="{{brand.imageUrl}}" alt="{{brand.name}}" class="icon"/>
+                <p>{{brand.name}}</p>
+                <div class="list-icon-actions">
+                    <a ng-href="#{{'admin.brands' | routeSegmentUrl }}" ng-click="editPopup(brand)"><i class="icon-pencil"></i></a>
+                    <a ng-href="#{{'admin.brands' | routeSegmentUrl }}"><i class="icon-remove"></i></a>
+                </div>
+            </li>
+        </ul>
+
+    <div ng-init="value='Work'">{{value}}</div>
+</div>

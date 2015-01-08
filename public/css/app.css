@@ -1,0 +1,28 @@
+.unstyled:first-child {
+    border-top: 1px solid #DAE1E8;
+}
+
+.list-item {
+    position: relative;
+    border: 4px transparent solid;
+    margin: 0 0 10px 0;
+    overflow: hidden;
+    clear: both;
+    border-bottom: 1px solid #DAE1E8;
+    padding: 5px 0 3px;
+}
+
+.list-icon-actions {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.icon {
+    display: block;
+    width: 56px;
+    height: 56px;
+    font-size: 40px;
+    float: left;
+    margin-right: 10px;
+}

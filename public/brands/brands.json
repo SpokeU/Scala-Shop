@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Apple",
+    "imageUrl":"img/brands/apple.png"
+  },
+  {
+    "name": "Samsung",
+    "imageUrl":"img/brands/samsung.png"
+  },
+  {
+    "name": "Acer",
+    "imageUrl":"img/brands/acer.png"
+  },
+  {
+    "name": "Asus",
+    "imageUrl":"img/brands/asus.png"
+  }
+]
