@@ -1,42 +1,47 @@
 package model
 
-import anorm.SqlParser._
-import anorm._
 import play.api.Play.current
-import play.api.db.DB
+import scala.slick.driver.MySQLDriver.simple._
 import util.BaseDao
 
-case class Brand(id: Long, name: String, imageUrl: String)
+case class Brand(id: Option[Long], name: String, imageUrl: String)
 
-object Brand extends BaseDao[Brand] {
+class Brands(tag: Tag) extends Table[Brand](tag, "brands") {
 
-  val brandParser = {
-    long("id") ~
-      str("name") ~
-      str("image_link")
-  }.map(flatten).map(tuple => Brand.apply _ tupled(tuple))
+  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
-  def findAll: List[Brand] = {
-    DB.withConnection(implicit c => SQL("SELECT * FROM brand").as(brandParser *))
+  def name = column[String]("name", O.NotNull)
+
+  def imageUrl = column[String]("image_link", O.Default("img/defaultBrand.png"))
+
+  def * = (id.?, name, imageUrl) <> (Brand.tupled, Brand.unapply)
+
+}
+
+object Brands extends BaseDao[Brand] {
+
+  val db = play.api.db.slick.DB
+
+  val brands = TableQuery[Brands]
+
+  def all: List[Brand] = {
+    db.withSession { implicit s => brands.list }
   }
 
   def create(entry: Brand): Option[Long] = {
-    DB.withConnection { implicit c =>
-      SQL("INSERT INTO brand (name, image_link) VALUES ({name} , {image_link})").
-        on("name" -> entry.name, "image_link" -> entry.imageUrl).executeInsert()
-    }
+    db.withSession { implicit s => Some(brands += entry) }
   }
 
   def delete(id: Long): Boolean = {
-    val numRows = DB.withConnection { implicit c => SQL("DELETE FROM brand WHERE id = {id}").on("id" -> id).executeUpdate() }
-    numRows == 0
+    db.withSession { implicit s => brands.filter(_.id === id).delete > 0 }
   }
 
-  def update(entry: Brand): Unit = {
-    ???
+  def find(id: Long): Brand = {
+    db.withSession { implicit s => brands.filter(_.id === id).first }
   }
 
-  def findById(id: Long): Brand = {
-    ???
+  def update(entry: Brand): Boolean = {
+    db.withSession { implicit s => brands.filter(_.id === entry.id).update(entry) > 0 }
   }
+
 }

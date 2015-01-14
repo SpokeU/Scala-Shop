@@ -9,6 +9,7 @@ import scala.reflect.runtime.universe._
 import scala.reflect.api._
 import scala.reflect.api.StandardDefinitions
 import model.Category
+import java.sql.PreparedStatement
 
 trait BaseCRUD_Unimplemented[T] {
 
@@ -17,14 +18,10 @@ trait BaseCRUD_Unimplemented[T] {
   val tableName = this.getClass.getSimpleName.toLowerCase.replaceAll("\\$", "")
   val clazz = this.getClass
 
-  val parser = {
-    get[Long]("id") ~
-      get[String]("name")
-  }
-
   def findAll = {
     val query = s"SELECT * FROM $tableName"
     getRowParser
+    val ps: PreparedStatement = null
     //val categories = DB.withConnection(implicit c => SQL(query)().map(row => Category(row[Int]("id"), row[String]("name"))).toList)
     //categories
   }
@@ -59,6 +56,7 @@ trait BaseCRUD_Unimplemented[T] {
   }
 
   def getRowParser /*: RowParser[T]*/ = {
+
     val caseAccessors = getCaseAccessors;
     val rows = caseAccessors.map { rowParser(_) }
     rows.foldLeft(rows.head)((a, b) => a ~ b)
@@ -84,9 +82,9 @@ trait BaseCRUD_Unimplemented[T] {
       case t if t =:= (booleanType) => bool(name)
     }
   }
-  
-  def flattern(){
-    
+
+  def flattern() {
+
   }
 
 }

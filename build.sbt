@@ -12,6 +12,8 @@ EclipseKeys.withSource := true
 
 libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "5.1.21",
+  "com.typesafe.slick" %% "slick" % "2.1.0",
+  "com.typesafe.play" %% "play-slick" % "0.8.0",
   jdbc,
   anorm,
   cache,

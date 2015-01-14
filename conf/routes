@@ -3,21 +3,25 @@
 # ~~~~
 
 # Home page
-GET         /                      controllers.Application.index
-GET         /categories            controllers.CategoryController.all
-POST        /category              controllers.CategoryController.add
+GET      /                 controllers.Application.index
+GET      /categories       controllers.CategoryController.all
+POST     /category         controllers.CategoryController.add
 
 #Items
 
-GET         /items                 controllers.ItemsController.getAll
-GET         /item/:category        controllers.ItemsController.getByCategory(category:String)
-POST        /item                  controllers.ItemsController.add
+GET      /items            controllers.ItemsController.getAll
+GET      /item/:category   controllers.ItemsController.getByCategory(category:String)
+POST     /item             controllers.ItemsController.add
 
 #Brands
 
-GET         /brands                controllers.BrandController.findAll
+GET      /brands           controllers.BrandController.all
+GET      /brands/:id       controllers.BrandController.find(id: Long)
+POST     /brands           controllers.BrandController.create
+PUT      /brands/:id       controllers.BrandController.update(id:Long)
+DELETE   /brands/:id       controllers.BrandController.delete(id:Long)
 
-GET         /index                 controllers.Application.index
+GET      /index            controllers.Application.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /*file          controllers.Assets.at(path="/public", file)
+GET      /*file            controllers.Assets.at(path="/public", file)

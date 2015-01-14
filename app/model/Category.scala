@@ -8,7 +8,7 @@ import util.BaseDao
 
 case class Category(id: Long = -1, name: String, imageLink: String, parentId: Option[Long], subCategories: List[Category] = Nil)
 
-object Category extends BaseDao[Category] {
+object Category {
 
   val categoryParser = {
     get[Long]("id") ~

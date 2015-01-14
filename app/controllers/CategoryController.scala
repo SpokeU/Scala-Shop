@@ -30,7 +30,7 @@ object CategoryController extends Controller {
   def all = Action { implicit request =>
     {
       val all = CategoryService.getCategories 
-      Ok(views.html.admin.category.categories(all)(categoryForm))
+      Ok("Ok")
     }
   }
 
@@ -38,7 +38,7 @@ object CategoryController extends Controller {
     implicit request =>
       {
         categoryForm.bindFromRequest.fold(
-          withErrors => Ok(views.html.admin.category.categories(CategoryService.getCategories)(withErrors)),
+          withErrors => Ok("Ok"),
           categoryForm => {
             Category.add(categoryForm.name, categoryForm.imageLink, categoryForm.parentId)
             Redirect(routes.CategoryController.all)

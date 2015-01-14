@@ -20,7 +20,7 @@ object ItemsController extends Controller {
 
   def getAll = Action { implicit request => {
       val list: List[NewItemRequest] = List();
-      Ok(views.html.admin.items(list)(itemForm))
+      Ok("Ok")
     }
   }
 
