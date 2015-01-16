@@ -10,16 +10,15 @@ import util.FormInputNames
  */
 object ItemsController extends Controller {
 
-  val itemForm = Form(mapping(
+  /*val itemForm = Form(mapping(
     FormInputNames.NAME -> nonEmptyText,
     FormInputNames.DESCRIPTION -> text,
     FormInputNames.PRICE -> bigDecimal,
     FormInputNames.IMAGE_LINK -> text,
     FormInputNames.BRAND -> text
   )(NewItemRequest.apply)(NewItemRequest.unapply))
-
+  */
   def getAll = Action { implicit request => {
-      val list: List[NewItemRequest] = List();
       Ok("Ok")
     }
   }

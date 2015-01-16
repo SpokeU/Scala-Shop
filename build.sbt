@@ -2,9 +2,11 @@ name := """Scala-Shop"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala).aggregate(myLibrary).dependsOn(myLibrary)
 
-scalaVersion := "2.11.1"
+lazy val myLibrary = project
+
+scalaVersion := "2.11.2"
 
 scalacOptions in (Compile, doc) += s"-doc-external-doc:${scalaInstance.value.libraryJar}#http://www.scala-lang.org/api/${scalaVersion.value}/"
 
