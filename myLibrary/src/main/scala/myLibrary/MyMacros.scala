@@ -1,3 +1,5 @@
+package myLibrary
+
 import scala.language.experimental.macros
 //import scala.reflect.macros.contexts.Context
 //import scala.reflect.macros.blackbox.Context
@@ -6,7 +8,7 @@ import scala.reflect.macros.whitebox.Context
 trait Mappable[T] {
 
   def toMap(t: T): Map[Any, Any]
-  def fromMap(map: Map[String, Any]): T
+  def fromMap(map: Map[String, Any]): T 
 
 }
 

@@ -6,16 +6,22 @@ import play.api.mvc.Controller
 import util.UserModel
 import myLibrary.Mappable
 import myLibrary.Mappable._
+import play.api.libs.json.Json
+import play.api.mvc.AnyContent
+import play.api.libs.json.JsValue
 
-object Application extends Controller {
+object Application extends CrudRestController {
 
   case class Person(name: String, age: Int)
 
-  def index = Action {
-    def f = action1 _ compose action2 _
-    f("a")
-    action4("", 1)
-    testMacro(Person("name", 1))
+  implicit val personParser = Json.format[Person]
+
+  def ageValidator(p: Person) = if (p.age == 12) "Age could not be 12" else ""
+  def nameValidator(p: Person) = if (p.name == "Vasya") "Name could not be Vasya" else ""
+
+  def index = JsonModelAction[Person](ageValidator _, nameValidator _) { x: Person =>
+    val mapper = implicitly[Mappable[Person]]
+    println(mapper.toMap(x))
     Ok("")
   }
 
@@ -44,6 +50,26 @@ object Application extends Controller {
   def action4(act: String, times: Int) = {
 
     println(List("err:1", "err:2", "err:3").fold("")((a, b) => a + b))
+  }
+
+  def all: Action[AnyContent] = {
+    ???
+  }
+
+  def create: Action[JsValue] = {
+    ???
+  }
+
+  def delete(id: Long): Action[AnyContent] = {
+    ???
+  }
+
+  def find(id: Long): Action[AnyContent] = {
+    ???
+  }
+
+  def update(id: Long): Action[JsValue] = {
+    ???
   }
 
 }

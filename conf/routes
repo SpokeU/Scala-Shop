@@ -4,6 +4,8 @@
 
 # Home page
 GET      /                 controllers.Application.index
+POST     /                 controllers.Application.index
+
 GET      /categories       controllers.CategoryController.all
 POST     /category         controllers.CategoryController.add
 

@@ -9,6 +9,7 @@ import play.api.libs.json.Reads
 import play.api.libs.json.JsSuccess
 import play.api.libs.json.JsError
 import play.api.libs.json.Json
+import play.api.libs.json.JsArray
 
 trait CrudRestController extends Controller {
 
@@ -20,13 +21,23 @@ trait CrudRestController extends Controller {
     Action(parse.json) {
       implicit request =>
         Json.fromJson(request.body) match {
-          case JsSuccess(v, _) => {
-            validators.foldLeft("")((acc, validator) => validator(v))
-            action(v)
+          case JsSuccess(model, _) => {
+            val errors = validateModel(model)(validators: _*)
+            errors match {
+              case Nil    => action(model)
+              case errors => BadRequest(Json.obj("errors" -> errors))
+            }
           }
           case JsError(e) => BadRequest(s"Invalid JSON format $e")
         }
     }
+  }
+
+  def validateModel[T](model: T)(validators: (T => String)*) = {
+    validators.foldLeft(List[String]())((acc, validator) => {
+      val validationResult = validator(model)
+      if (!validationResult.isEmpty()) validationResult :: acc else acc
+    })
   }
 
   def all: Action[AnyContent]
