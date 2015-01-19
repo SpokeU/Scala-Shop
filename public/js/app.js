@@ -15,7 +15,7 @@ scalaShop.config(['$routeSegmentProvider', '$locationProvider', '$httpProvider',
             .within()
             .segment('brands', {
                 templateUrl:"partials/admin/brands-list.html",
-                controller: 'BrandsCtrl'
+                controller: 'BrandsListCtrl'
             })
     }
 ])

@@ -4,7 +4,7 @@
 
 # Home page
 GET      /                 controllers.Application.index
-POST     /                 controllers.Application.index
+GET      /testGet          controllers.Application.testGet
 
 GET      /categories       controllers.CategoryController.all
 POST     /category         controllers.CategoryController.add
@@ -18,8 +18,8 @@ POST     /item             controllers.ItemsController.add
 #Brands
 
 GET      /brands           controllers.BrandController.all
-GET      /brands/:id       controllers.BrandController.find(id: Long)
 POST     /brands           controllers.BrandController.create
+GET      /brands/:id       controllers.BrandController.find(id: Long)
 PUT      /brands/:id       controllers.BrandController.update(id:Long)
 DELETE   /brands/:id       controllers.BrandController.delete(id:Long)
 

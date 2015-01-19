@@ -1,28 +1,35 @@
 package controllers
 
-import model.Category
-import play.api.mvc.Action
-import play.api.mvc.Controller
-import util.UserModel
+import actions.Actions.JsonModelAction
 import myLibrary.Mappable
-import myLibrary.Mappable._
-import play.api.libs.json.Json
-import play.api.mvc.AnyContent
+import myLibrary.Mappable.materializeMappable
 import play.api.libs.json.JsValue
+import play.api.libs.json.Json
+import play.api.mvc.Action
+import play.api.mvc.AnyContent
+import play.api.mvc.Controller
+import validators.Validators._
+import model.Items
 
-object Application extends CrudRestController {
+case class Person(name: String, age: Int)
 
-  case class Person(name: String, age: Int)
+object Application extends Controller {
 
   implicit val personParser = Json.format[Person]
 
-  def ageValidator(p: Person) = if (p.age == 12) "Age could not be 12" else ""
-  def nameValidator(p: Person) = if (p.name == "Vasya") "Name could not be Vasya" else ""
+  def index = Action {
+    Ok(views.html.index())
+  }
 
-  def index = JsonModelAction[Person](ageValidator _, nameValidator _) { x: Person =>
+  def testPost = JsonModelAction[Person](ageValidator _, nameValidator _) { x: Person =>
     val mapper = implicitly[Mappable[Person]]
     println(mapper.toMap(x))
     Ok("")
+  }
+
+  def testGet = Action {
+    Items.joinTest
+    Ok("Success")
   }
 
   def testMacro[T: Mappable](p: T) = {
@@ -50,26 +57,6 @@ object Application extends CrudRestController {
   def action4(act: String, times: Int) = {
 
     println(List("err:1", "err:2", "err:3").fold("")((a, b) => a + b))
-  }
-
-  def all: Action[AnyContent] = {
-    ???
-  }
-
-  def create: Action[JsValue] = {
-    ???
-  }
-
-  def delete(id: Long): Action[AnyContent] = {
-    ???
-  }
-
-  def find(id: Long): Action[AnyContent] = {
-    ???
-  }
-
-  def update(id: Long): Action[JsValue] = {
-    ???
   }
 
 }

@@ -1,18 +1,10 @@
 package validators
 
-import formbeans.CategoryForm
-import model.Category
-import play.api.data.validation._
+import controllers.Person
 
 object Validators {
 
-  val uniqueCategoryName: Constraint[CategoryForm] = Constraint("constraints.category_name")({
-    categoryForm =>
-      if ( /*Category.fieldExist("name", categoryForm.name)*/ true) {
-        Invalid(Seq(ValidationError("Name already exists")))
-      } else {
-        Valid
-      }
-  })
+  def ageValidator(p: Person) = if (p.age == 12) "Age could not be 12" else ""
+  def nameValidator(p: Person) = if (p.name == "Vasya") "Name could not be Vasya" else ""
 
 }

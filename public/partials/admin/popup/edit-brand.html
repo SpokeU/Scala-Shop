@@ -1,13 +1,14 @@
 <form>
     <label>Name:</label>
     <div class="input-control text" data-role="input-control">
-        <input type="text" placeholder="type text" ng-model="name" ng-init="name = ngDialogData.name">
+        <input type="text" placeholder="type text" ng-model="brand.name" ng-init="brand.name = ngDialogData.name">
         <button class="btn-clear" tabindex="-1" type="button"></button>
     </div>
     <label>Image link</label>
     <div class="input-control text" data-role="input-control">
-        <input type="text" placeholder="type text" ng-model="imageLink" ng-init="imageLink = ngDialogData.imageUrl">
+        <input type="text" placeholder="type text" ng-model="brand.imageUrl" ng-init="brand.imageUrl = ngDialogData.imageUrl">
         <button class="btn-clear" tabindex="-1" type="button"></button>
+        <button ng-click="editBrand(ngDialogData.id)">Save</button>
     </div>
-    <img src="{{imageLink}}" />
+    <img src="{{brand.imageUrl}}" />
 </form>

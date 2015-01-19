@@ -1,6 +1,6 @@
 package controllers
 
-import scala.annotation.implicitNotFound
+import actions.Actions.JsonModelAction
 import model.Brand
 import model.Brands
 import play.api.libs.json.JsValue
@@ -8,9 +8,6 @@ import play.api.libs.json.Json
 import play.api.libs.json.Json.toJson
 import play.api.mvc.Action
 import play.api.mvc.AnyContent
-import play.api.mvc.Controller
-import play.api.data.Form
-import play.api.data.Forms._
 
 object BrandController extends CrudRestController {
 

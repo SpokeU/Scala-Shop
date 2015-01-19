@@ -5,8 +5,9 @@
                 <p>{{brand.name}}</p>
                 <div class="list-icon-actions">
                     <a ng-href="#{{'admin.brands' | routeSegmentUrl }}" ng-click="editPopup(brand)"><i class="icon-pencil"></i></a>
-                    <a ng-href="#{{'admin.brands' | routeSegmentUrl }}"><i class="icon-remove"></i></a>
+                    <a ng-href="#{{'admin.brands' | routeSegmentUrl }}" ng-click="deleteBrand(brand.id)"><i class="icon-remove"></i></a>
                 </div>
+                <button ng-click="getById(brand.id)">B</button>
             </li>
         </ul>
 
