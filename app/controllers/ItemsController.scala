@@ -1,44 +1,29 @@
 package controllers
 
-import play.api.data.Forms._
-import play.api.data._
-import play.api.mvc._
-import util.FormInputNames
+import play.api.mvc.Action
+import play.api.libs.json.JsValue
+import play.api.mvc.AnyContent
 
-/**
- * Created by Silvester on 12/21/2014.
- */
-object ItemsController extends Controller {
-
-  /*val itemForm = Form(mapping(
-    FormInputNames.NAME -> nonEmptyText,
-    FormInputNames.DESCRIPTION -> text,
-    FormInputNames.PRICE -> bigDecimal,
-    FormInputNames.IMAGE_LINK -> text,
-    FormInputNames.BRAND -> text
-  )(NewItemRequest.apply)(NewItemRequest.unapply))
-  */
-  def getAll = Action { implicit request => {
-      Ok("Ok")
-    }
+object ItemsController extends CrudRestController {
+  
+  def all: Action[AnyContent] = {
+    ???
   }
 
-  def getByCategory(category: String) = Action {
-    Ok
+  def create: Action[JsValue] = {
+    ???
   }
 
-  /**
-   * Filter
-   * @return
-   */
-  def getByCriteria = {
-    implicit request: Request[AnyContent] => {
-      Ok
-    }
+  def delete(id: Long): Action[AnyContent] = {
+    ???
   }
 
-  def add = Action {
-    Ok
+  def find(id: Long): Action[AnyContent] = {
+    ???
+  }
+
+  def update(id: Long): Action[JsValue] = {
+    ???
   }
 
 }

@@ -9,7 +9,10 @@
         <input type="text" placeholder="type text" ng-model="brand.imageUrl" ng-init="brand.imageUrl = ngDialogData.imageUrl">
         <button class="btn-clear" tabindex="-1" type="button"></button>
     </div>
+    <div>
+    	<img src="{{brand.imageUrl}}" />
+    </div>
     <button ng-show="edit" ng-click="editBrand(ngDialogData.id)">Save</button>
     <button ng-show="!edit" ng-click="saveBrand">Save</button>
-    <img src="{{brand.imageUrl}}" />
+    
 </form>
