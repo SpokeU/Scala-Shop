@@ -40,7 +40,8 @@ controllers.controller('BrandsListCtrl', ['$scope','ngDialog', 'Brand',
 ]);
 
 controllers.controller('EditBrandsCtrl',['$scope','Brand', function($scope,Brand) {
-    $scope.brand = $scope.ngDialogData;
+    $scope.brand = $scope.ngDialogData; // TODO : Delete This? ng-init does this work
+	$scope.edit = $scope.brand != undefined
 	
 	$scope.saveBrand = function(){
     	Brand.save($scope.brand,function(data){
