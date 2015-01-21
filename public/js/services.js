@@ -7,3 +7,7 @@ services.factory('Brand', function ($resource) {
         }
     });
 })
+
+services.factory('Item', function($resource) {
+	return $resource('http://localhost:9000/items/:id')
+})
