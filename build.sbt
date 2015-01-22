@@ -2,7 +2,7 @@ name := """Scala-Shop"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala).aggregate(myLibrary).dependsOn(myLibrary)
+lazy val root = (project in file(".")).enablePlugins(PlayScala).dependsOn(myLibrary)
 
 lazy val myLibrary = project
 

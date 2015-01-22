@@ -10,6 +10,7 @@ scalaShop.config(['$routeSegmentProvider', '$locationProvider', '$httpProvider',
             .when("/admin", 'admin')
             .when("/admin/brands", "admin.brands")
             .when("/admin/items","admin.items")
+            .when("/admin/categories","admin.categories")
             .segment('admin', {
                 templateUrl: "partials/admin/admin-nav.html"
             })
@@ -20,6 +21,9 @@ scalaShop.config(['$routeSegmentProvider', '$locationProvider', '$httpProvider',
             }).segment('items', {
                 templateUrl:"partials/admin/items-list.html",
                 controller: 'ItemsListCtrl'
+            }).segment('categories',{
+            	templateUrl:"partials/admin/categories-list.html",
+            	controller: 'CategoriesListCtrl'
             })
     }
 ])
