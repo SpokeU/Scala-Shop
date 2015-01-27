@@ -29,7 +29,7 @@ object Brands extends BaseDao[Brand] {
   }
 
   def create(entry: Brand): Option[Long] = {
-    db.withSession { implicit s => Some(brands += entry) }
+    db.withSession { implicit s => Some(brands.returning(brands.map { _.id }) += entry) }
   }
 
   def delete(id: Long): Boolean = {
