@@ -28,8 +28,13 @@ object Brands extends BaseDao[Brand] {
     db.withSession { implicit s => brands.list }
   }
 
-  def create(entry: Brand): Option[Long] = {
-    db.withSession { implicit s => Some(brands.returning(brands.map { _.id }) += entry) }
+  def create(entry: Brand): Option[Brand] = {
+    db.withSession { implicit s =>
+      {
+        val id = brands.returning(brands.map { _.id }) += entry
+        Some(entry.copy(Some(id), entry.name, entry.imageUrl))
+      }
+    }
   }
 
   def delete(id: Long): Boolean = {

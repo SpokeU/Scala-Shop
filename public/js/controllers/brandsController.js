@@ -9,7 +9,6 @@ controllers.controller('BrandsListCtrl', ['$scope','ngDialog', 'Brand',
                 template : 'partials/admin/popup/edit-brand.html',
                 data: brand,
                 controller: 'EditBrandsCtrl',
-                scope: $scope,
                 cache: false
             })
         }
@@ -40,18 +39,19 @@ controllers.controller('BrandsListCtrl', ['$scope','ngDialog', 'Brand',
 ]);
 
 controllers.controller('EditBrandsCtrl',['$scope','Brand', function($scope,Brand) {
-    $scope.brand = $scope.ngDialogData; // TODO : Delete This? ng-init does this work
-	$scope.edit = $scope.brand != undefined
+	$scope.edit = $scope.ngDialogData != undefined;
+	$scope.brand = $scope.ngDialogData;
 	
 	$scope.saveBrand = function(){
     	Brand.save($scope.brand,function(data){
-    		$scope.brands.push(data) // TODO : Backend should return created entity
+    		alert(JSON.stringify(data));
+    		$scope.brands.push(data);
     	})
     }
 	
 	$scope.editBrand = function(brandId){
 		Brand.update({id : brandId} , $scope.brand, function(data){
-			alert(JSON.stringify(data))
+			$scope.closeThisDialog()
 		})
 	}
 }])

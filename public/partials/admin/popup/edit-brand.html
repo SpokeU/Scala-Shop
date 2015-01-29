@@ -1,7 +1,7 @@
 <form>
     <label>Name:</label>
     <div class="input-control text" data-role="input-control">
-        <input type="text" placeholder="type text" ng-model="brand.name" ng-init="brand.name = ngDialogData.name">
+        <input type="text" placeholder="type text" ng-model="brand.nameE" ng-init="brand.nameE = ngDialogData.name">
         <button class="btn-clear" tabindex="-1" type="button"></button>
     </div>
     <label>Image link</label>
@@ -12,7 +12,11 @@
     <div>
     	<img src="{{brand.imageUrl}}" />
     </div>
-    <button ng-show="edit" ng-click="editBrand(ngDialogData.id)">Save</button>
+    <button ng-show="edit" ng-click="editBrand(ngDialogData.id)">SaveEdit</button>
     <button ng-show="!edit" ng-click="saveBrand()">Save</button>
+    
+    <div class="notice marker-on-top fg-white" >
+		{{errors}}
+	</div>
     
 </form>

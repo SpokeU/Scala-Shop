@@ -26,11 +26,17 @@ object Actions {
           case JsSuccess(model, _) => {
             val errors = validateModel(model)(validators: _*)
             errors match {
-              case Nil    => action(model)
+              case Nil => {
+                try {
+                  action(model)
+                } catch {
+                  case e: Exception => BadRequest(Json.obj("errors" -> e.getMessage))
+                }
+              }
               case errors => BadRequest(Json.obj("errors" -> errors))
             }
           }
-          case JsError(e) => BadRequest(s"Invalid JSON format $e")
+          case JsError(e) => BadRequest(Json.obj("errors" -> s"Invalid JSON format $e"))
         }
     }
   }

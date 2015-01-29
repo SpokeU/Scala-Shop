@@ -13,7 +13,7 @@ trait BaseDao[T] {
 
   def all: List[T]
 
-  def create(entry: T): Option[Long]
+  def create(entry: T): Option[T]
 
   def find(id: Long): T
 

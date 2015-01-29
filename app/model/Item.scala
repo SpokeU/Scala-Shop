@@ -34,7 +34,7 @@ class Items(tag: Tag) extends Table[Item](tag, "items") {
   }
 }
 
-object Items extends BaseDao[Item] {
+object Items  {
 
   implicit val itemResult = GetResult(r => Item(r.nextLongOption(), r.<<, r.<<, r.<<, r.<<, r.<<))
 

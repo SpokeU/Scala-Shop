@@ -30,6 +30,7 @@ object BrandController extends CrudRestController {
   }
 
   def update(id: Long): Action[JsValue] = JsonModelAction[Brand] { implicit brand: Brand =>
+    println(brand)
     Ok(toJson(Brands.update(brand)))
   }
 
