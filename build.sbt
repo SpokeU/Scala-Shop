@@ -2,9 +2,9 @@ name := """Scala-Shop"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala).dependsOn(myLibrary)
+lazy val root = (project in file(".")).enablePlugins(PlayScala).dependsOn(shopCrawler)
 
-lazy val myLibrary = project
+lazy val shopCrawler = (project in file("Shop-Crawler")).enablePlugins(PlayScala)
 
 scalaVersion := "2.11.2"
 

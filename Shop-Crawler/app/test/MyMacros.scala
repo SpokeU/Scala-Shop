@@ -1,4 +1,4 @@
-package myLibrary
+package test
 
 import scala.language.experimental.macros
 //import scala.reflect.macros.contexts.Context
