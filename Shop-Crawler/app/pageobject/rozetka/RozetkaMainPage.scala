@@ -7,11 +7,7 @@ import pageobject.CategoryPage
 import org.jsoup.nodes.Element
 import scala.collection.JavaConversions._
 
-class RozetkaMainPage(page: Element) extends MainPage {
-
-  def this(url: String) = {
-    this(Jsoup.connect(url).get)
-  }
+class RozetkaMainPage(val source: String) extends MainPage {
 
   def categories: Seq[CategoryPage] = {
     page.select(".m-main-t-i").map(RozetkaCategoryPage(_))

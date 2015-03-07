@@ -10,8 +10,8 @@ case class StartParse(shop: Shop)
 class ShopParserActor extends Actor with ActorLogging {
 
   override def receive = {
-    case StartParse(shop)                => context.actorOf(Props[MainPageParserActor]) ! ParseMainPageMessage(shop)
-    case ParseMainPageResponse(mainPage) => log.info(s"Shop categories : ${mainPage.categories}")
+    case StartParse(shop)                => context.actorOf(Props[MainPageParserActor], name = "MainPageParser") ! ParseMainPageMessage(shop)
+    case ParseMainPageResponse(mainPage) => log.info(s"Shop categories size: ${mainPage.categories.size}")
     case _                               =>
   }
 

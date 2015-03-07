@@ -15,12 +15,12 @@ case class ParseMainPageResponse(page: MainPage)
 /**
  * Pases main page of shop for the given url and perform something
  */
-class MainPageParserActor extends Actor with ActorLogging{
+class MainPageParserActor extends Actor with ActorLogging {
 
   override def receive = {
     case ParseMainPageMessage(shop) => {
       val mainPage = getMainPage(shop)
-      log.info(s"Page Logo url $mainPage.logo")
+      log.info(s"Page Logo url ${mainPage.logo}")
       sender ! ParseMainPageResponse(mainPage)
     }
     case _ => log.error("Unknown message revieved")
