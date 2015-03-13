@@ -4,11 +4,7 @@ import pageobject.ProductInfoPage
 import org.jsoup.nodes.Element
 import webclient.WebClient
 
-class DeshevseProductInfoPage(page: Element) extends ProductInfoPage {
-
-  def this(url: String) = {
-    this(WebClient.getPage(url))
-  }
+class DeshevseProductInfoPage(val source: Any) extends ProductInfoPage {
 
   def name: String = {
     page.select("[itemprop=name]").first().text()

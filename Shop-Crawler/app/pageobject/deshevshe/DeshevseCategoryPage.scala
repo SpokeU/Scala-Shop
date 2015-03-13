@@ -9,13 +9,9 @@ import pageobject.ProductInfoPage
 import org.jsoup.nodes.Document
 import webclient.WebClient
 
-class DeshevseCategoryPage(page: => Element) extends CategoryPage {
+class DeshevseCategoryPage(val source:  Any) extends CategoryPage {
 
   import DeshevseCategoryPage._
-
-  def this(url: String) = {
-    this(WebClient.getPage(url))
-  }
 
   def name: String = {
     val categoryLevel = getCategoryLevel(page)
@@ -26,7 +22,7 @@ class DeshevseCategoryPage(page: => Element) extends CategoryPage {
     val categorylevel = getCategoryLevel(page)
     categorylevel match {
       case 3 => {
-        val allProductsUrl = page.asInstanceOf[Document].baseUri() + "?perPage=2"
+        val allProductsUrl = page.asInstanceOf[Document].baseUri() + "?perPage=10000"
         val allProducts = WebClient.getPage(allProductsUrl)
         allProducts.select("a[class=name]").map { productLink =>
           new DeshevseProductInfoPage(BASE_URL + productLink.attr("href"))

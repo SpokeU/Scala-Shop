@@ -1,6 +1,6 @@
 package pageobject
 
-trait CategoryPage {
+trait CategoryPage extends LazyPage{
 
   /**
    * Returns name of category

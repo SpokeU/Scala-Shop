@@ -1,6 +1,6 @@
 package pageobject
 
-trait ProductInfoPage {
+trait ProductInfoPage extends LazyPage{
 
   def name: String
 

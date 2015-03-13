@@ -8,6 +8,8 @@ import config.Shop.DESHEVSHE
 import config.Shop.AMAZON
 import pageobject.MainPage
 import akka.actor.ActorLogging
+import akka.actor.Props
+import play.api.Logger
 
 case class ParseMainPageMessage(shop: Shop)
 case class ParseMainPageResponse(page: MainPage)
@@ -20,7 +22,9 @@ class MainPageParserActor extends Actor with ActorLogging {
   override def receive = {
     case ParseMainPageMessage(shop) => {
       val mainPage = getMainPage(shop)
-      log.info(s"Page Logo url ${mainPage.logo}")
+      log.info(s"Main page for ${shop.url} parsed")
+      val cateogryParser = context.actorOf(Props[CategoryPageParserActor])
+      mainPage.categories.map { cateogryParser ! ParseCategoryProductsMessage(_) }
       sender ! ParseMainPageResponse(mainPage)
     }
     case _ => log.error("Unknown message revieved")

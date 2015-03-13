@@ -20,14 +20,14 @@ class SimpleActor extends Actor {
   }
 }
 
-object SimpleMain extends App {
-
-  Logger.info("Hello from crawler")
-  val system = ActorSystem("CrawlerSystem")
-  val simpleActor = system.actorOf(Props[ShopParserActor], name = "parserActor") /*.withRouter(RoundRobinPool(nrOfInstances = 10))*/
-  simpleActor ! StartParse(DESHEVSHE)
-  /*simpleActor ! Broadcast(Message("Hello, Akka!"))
+object SimpleMain {
+  def main(args: Array[String]): Unit = {
+    Logger.error("Hello from crawler")
+    val system = ActorSystem("CrawlerSystem")
+    val simpleActor = system.actorOf(Props[ShopParserActor], name = "parserActor") /*.withRouter(RoundRobinPool(nrOfInstances = 10))*/
+    simpleActor ! StartParse(DESHEVSHE)
+    /*simpleActor ! Broadcast(Message("Hello, Akka!"))
     simpleActor ! Broadcast(PoisonPill)
     simpleActor ! Message("Boy, that was some tasty arsenic!")*/
-
+  }
 }

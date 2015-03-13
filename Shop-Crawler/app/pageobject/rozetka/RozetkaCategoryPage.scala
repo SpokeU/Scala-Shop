@@ -10,7 +10,7 @@ import scala.reflect.internal.util.StringOps
 /**
  * @author AlexM
  */
-class RozetkaCategoryPage(page: Element) extends CategoryPage {
+class RozetkaCategoryPage(val source: Any) extends CategoryPage {
 
   def this(url: String) = {
     this(Jsoup.connect(url).timeout(10*1000).get)

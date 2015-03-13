@@ -5,11 +5,9 @@ import pageobject.ProductInfoPage
 import scala.collection.JavaConversions._
 import org.jsoup.nodes.Document
 
-class RozetkaProductInfoPage(url: String) extends ProductInfoPage {
+class RozetkaProductInfoPage(val source: Any) extends ProductInfoPage {
 
   import RozetkaProductInfoPage._
-
-  val page = Jsoup.connect(url).get();
 
   def name: String = {
     page.select(selectors("name")).first.text

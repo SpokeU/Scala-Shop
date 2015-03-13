@@ -1,7 +1,7 @@
 package pageobject
 
-import org.jsoup.nodes.Element
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
 
 class TestPage(page: => Element) {
 
