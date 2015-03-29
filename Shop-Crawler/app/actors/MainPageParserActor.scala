@@ -1,41 +1,43 @@
 package actors
 
 import akka.actor.Actor
-import config.Shop
-import pageobject.deshevshe.DeshevseMainPage
-import config.Shop.ROZETKA
-import config.Shop.DESHEVSHE
-import config.Shop.AMAZON
-import pageobject.MainPage
-import akka.actor.ActorLogging
 import akka.actor.Props
+import akka.actor.actorRef2Scala
+import config.AMAZON
+import config.DESHEVSHE
+import config.ROZETKA
+import config.Shop
+import pageobject.MainPage
+import pageobject.deshevshe.DeshevseMainPage
 import play.api.Logger
+import scala.collection.mutable._
+import akka.routing.RoundRobinPool
 
-case class ParseMainPageMessage(shop: Shop)
-case class ParseMainPageResponse(page: MainPage)
+case class ParseMainPage(requestId: String, mainPage: MainPage)
+case class ParseMainPageResponse(requestId: String, page: MainPage)
 
 /**
  * Pases main page of shop for the given url and perform something
  */
-class MainPageParserActor extends Actor with ActorLogging {
+class MainPageParserActor extends Actor {
+
+  val categoryParser = context.actorOf(Props[CategoryPageParserActor], name = "categoryParser")
+  val log = Logger("parser")
+
+  val totalCategories: Map[String, Int] = Map()
+  val processedCategories: Map[String, Int] = Map()
 
   override def receive = {
-    case ParseMainPageMessage(shop) => {
-      val mainPage = getMainPage(shop)
-      log.info(s"Main page for ${shop.url} parsed")
-      val cateogryParser = context.actorOf(Props[CategoryPageParserActor])
-      mainPage.categories.map { cateogryParser ! ParseCategoryProductsMessage(_) }
-      sender ! ParseMainPageResponse(mainPage)
+    case ParseMainPage(requestId, mainPage) => {
+      val mainCategories = mainPage.categories
+      
+      totalCategories += requestId -> mainCategories.size
+      processedCategories += requestId -> 0
+      log.info(s"Total top categories $totalCategories")
+      categoryParser ! ParseCategoryProductsMessage(requestId, mainCategories.head)
     }
     case _ => log.error("Unknown message revieved")
   }
 
-  def getMainPage(shop: Shop): MainPage = {
-    shop match {
-      case ROZETKA   => ???
-      case DESHEVSHE => DeshevseMainPage(shop.url)
-      case AMAZON    => ???
-    }
-  }
-
 }
+

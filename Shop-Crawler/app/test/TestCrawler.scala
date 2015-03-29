@@ -16,10 +16,12 @@ object TestCrawler {
   }
 
   def main(args: Array[String]): Unit = {
-    val test = new TestLazyPage("http://stackoverflow.com")
-    val test2 = new TestLazyPage("http://stackoverflow.com")
-    test.getHeader
-    //test2.getHeader
+    val list = List(1, 2, 3, 4)
+    println(List(1, 2, 3, 4).collect { case x: Int if x == 1 => x })
+    list match {
+      case Nil => println("Jopa")
+      case x: List[Int] => println("Gabamola")
+    }
   }
 
 }

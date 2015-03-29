@@ -22,7 +22,7 @@ class DeshevseCategoryPage(val source:  Any) extends CategoryPage {
     val categorylevel = getCategoryLevel(page)
     categorylevel match {
       case 3 => {
-        val allProductsUrl = page.asInstanceOf[Document].baseUri() + "?perPage=10000"
+        val allProductsUrl = page.asInstanceOf[Document].baseUri() + "?perPage=2"
         val allProducts = WebClient.getPage(allProductsUrl)
         allProducts.select("a[class=name]").map { productLink =>
           new DeshevseProductInfoPage(BASE_URL + productLink.attr("href"))

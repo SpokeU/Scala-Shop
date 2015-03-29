@@ -4,7 +4,8 @@
 
 # Home page
 GET      /                 controllers.Application.index
-GET      /testGet          controllers.Application.testGet
+POST     /startParse       controllers.Application.startParse
+POST     /stopParse        controllers.Application.stopParse
 
 #Categories
 GET      /categories       controllers.CategoryController.all

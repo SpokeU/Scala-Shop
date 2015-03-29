@@ -14,6 +14,7 @@ import akka.actor.SupervisorStrategy._
 
 object SimpleMain {
   def main(args: Array[String]): Unit = {
+    Nil.size
     val requestUUD = UUID.randomUUID().toString()
 
     val fileLocation: String = "D:\\akkaTestWordsFile.txt"
@@ -29,6 +30,8 @@ object SimpleMain {
     simpleActor ! Message("Boy, that was some tasty arsenic!")*/
   }
 }
+
+
 
 case class ParseFile(requestId: String, fileLocation: String)
 case class ParseFileResponse(requestId: String, totalWordsCount: Int)
