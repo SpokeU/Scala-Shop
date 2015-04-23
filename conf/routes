@@ -30,6 +30,9 @@ DELETE   /brands/:id       controllers.BrandController.delete(id:Long)
 GET      /brands/:id       controllers.BrandController.find(id: Long)
 PUT      /brands/:id       controllers.BrandController.update(id:Long)
 
+#Parser Routes
+POST	/parser/category   controllers.ParserController.parseCategory
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET      /*file            controllers.Assets.at(path="/public", file)
