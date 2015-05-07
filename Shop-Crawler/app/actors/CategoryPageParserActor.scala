@@ -26,7 +26,6 @@ class CategoryPageParserActor extends Actor {
     case ParseCategoryProductsMessage(requestId, category)     => parseCategory(requestId, category)
     case ParseCategoriesProductsMessage(requestId, categories) => categories.map { parseCategory(requestId, _) }
     case ParseProductsResponse(requestId, success, failed) => {
-      println(s"-----------------------------------$processedProducts")
       processedProducts(requestId) += success.size + failed.size
       log.info(s"Products left ${totalProducts(requestId) - processedProducts(requestId)}")
       if (totalProducts(requestId) == processedProducts(requestId)) {

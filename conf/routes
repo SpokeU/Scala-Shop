@@ -3,36 +3,38 @@
 # ~~~~
 
 # Home page
-GET      /                 controllers.Application.index
-POST     /startParse       controllers.Application.startParse
-POST     /stopParse        controllers.Application.stopParse
+GET      /                             controllers.Application.index
 
 #Categories
-GET      /categories       controllers.CategoryController.all
-POST     /categories       controllers.CategoryController.create
-DELETE   /categories/:id   controllers.CategoryController.delete(id: Long)
-GET      /categories/:id   controllers.CategoryController.find(id: Long)
-PUT      /categories/:id   controllers.CategoryController.update(id: Long)
+GET      /categories                   controllers.CategoryController.all
+POST     /categories                   controllers.CategoryController.create
+DELETE   /categories/:id               controllers.CategoryController.delete(id: Long)
+GET      /categories/:id               controllers.CategoryController.find(id: Long)
+PUT      /categories/:id               controllers.CategoryController.update(id: Long)
 
 
 #Items
-GET      /items            controllers.ItemsController.all
-POST     /items            controllers.ItemsController.create
-DELETE   /items/:id        controllers.ItemsController.delete(id: Long)
-GET      /items/:id        controllers.ItemsController.find(id: Long)
-PUT      /items/:id        controllers.ItemsController.update(id: Long)
+GET      /items                        controllers.ItemsController.all
+POST     /items                        controllers.ItemsController.create
+DELETE   /items/:id                    controllers.ItemsController.delete(id: Long)
+GET      /items/:id                    controllers.ItemsController.find(id: Long)
+PUT      /items/:id                    controllers.ItemsController.update(id: Long)
 
 
 #Brands
-GET      /brands           controllers.BrandController.all
-POST     /brands           controllers.BrandController.create
-DELETE   /brands/:id       controllers.BrandController.delete(id:Long)
-GET      /brands/:id       controllers.BrandController.find(id: Long)
-PUT      /brands/:id       controllers.BrandController.update(id:Long)
+GET      /brands                       controllers.BrandController.all
+POST     /brands                       controllers.BrandController.create
+DELETE   /brands/:id                   controllers.BrandController.delete(id:Long)
+GET      /brands/:id                   controllers.BrandController.find(id: Long)
+PUT      /brands/:id                   controllers.BrandController.update(id:Long)
 
 #Parser Routes
-POST	/parser/category   controllers.ParserController.parseCategory
+POST     /parser/shop                  controllers.ParserController.parseShop
+POST     /parser/category              controllers.ParserController.parseCategoryById
+POST     /parser/product               controllers.ParserController.parseProductById
+GET      /parser/getShopStatus/:shop   controllers.ParserController.getShopStatus(shop: String)
+GET      /parser/getShopsWithStatus    controllers.ParserController.getShopsWithParseStatus
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET      /*file            controllers.Assets.at(path="/public", file)
+GET      /*file                        controllers.Assets.at(path="/public", file)

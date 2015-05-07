@@ -1,16 +1,58 @@
 package akkatest
 
-import akka.actor.Actor
-import akka.actor.Props
-import akka.routing.RoundRobinPool
-import akka.actor.ActorSystem
-import akka.pattern.ask
-import akka.util.Timeout
-import scala.concurrent.duration.DurationInt
 import java.util.UUID
-import akka.actor.OneForOneStrategy
-import akka.dispatch.sysmsg.Resume
-import akka.actor.SupervisorStrategy._
+
+import akka.actor.Actor
+import akka.actor.ActorLogging
+import akka.actor.ActorRef
+import akka.actor.ActorSystem
+import akka.actor.Props
+import akka.actor.actorRef2Scala
+import akka.routing.GetRoutees
+import akka.routing.RoundRobinPool
+import test.FileParser
+import test.ParseFile
+
+class A extends Actor with ActorLogging {
+
+  val brouter = context.actorOf(Props[B].withRouter(RoundRobinPool(nrOfInstances = 2)), name = "B-router")
+
+  def receive = {
+    case s: String => {
+      log.info("A received")
+      1 to 3 foreach { x => brouter ! "attack" }
+    }
+  }
+}
+
+class B extends Actor with ActorLogging {
+
+  val crouter = context.actorOf(Props[C].withRouter(RoundRobinPool(nrOfInstances = 3)), name = "C-router")
+  var firstSender: ActorRef = null
+
+  def receive = {
+    case s: String => {
+      1 to 5 foreach { x => crouter ! "c GO" }
+    }
+  }
+}
+
+class C extends Actor with ActorLogging {
+
+  var firstSender: ActorRef = null
+
+  def receive = {
+    case s: String => {
+      if (firstSender != null) {
+        GetRoutees
+        if (!firstSender.path.equals(sender.path)) { log.info(s"---------\\n First sender $firstSender currect sender $sender") }
+      } else {
+        firstSender = sender
+      }
+      log.info("B received from" + sender.path)
+    }
+  }
+}
 
 object SimpleMain {
   def main(args: Array[String]): Unit = {
@@ -20,7 +62,8 @@ object SimpleMain {
     val fileLocation: String = "D:\\akkaTestWordsFile.txt"
     val system = ActorSystem("FileParserSystem")
     val fileParser = system.actorOf(Props[FileParser])
-    fileParser ! ParseFile(requestUUD, fileLocation)
+    val testRouters = system.actorOf(Props[A])
+    //fileParser ! ParseFile(requestUUD, fileLocation)
 
     /*val system = ActorSystem("CrawlerSystem"
     val simpleActor = system.actorOf(Props[ShopParserActor], name = "parserActor") /*.withRouter(RoundRobinPool(nrOfInstances = 10))*/
@@ -31,84 +74,3 @@ object SimpleMain {
   }
 }
 
-
-
-case class ParseFile(requestId: String, fileLocation: String)
-case class ParseFileResponse(requestId: String, totalWordsCount: Int)
-
-case class ParseLine(requestId: String, line: String)
-case class ParseLineResponse(requestId: String, wordsCount: Int)
-
-case class ParseWord(requestId: String, word: String)
-case class ParseWordResponse(requestId: String, count: Int)
-
-/**
- * Load file and send each line to separate actor to get words count
- */
-class FileParser extends Actor {
-
-  val lineParser = context.actorOf(Props[LineParser])
-  val parseJobStatus: scala.collection.mutable.Map[String, Boolean] = scala.collection.mutable.Map()
-  import scala.collection.mutable._
-
-  var totalLines: Map[String, Long] = Map()
-  var processedLines: Map[String, Long] = Map()
-  var totalWords = 0
-
-  def receive = {
-    case ParseFile(requestId, file) => {
-      val fileLines = scala.io.Source.fromFile(file).getLines().toList
-      totalLines += requestId -> fileLines.size
-      processedLines += requestId -> 0
-      println("Total lines : " + totalLines)
-      fileLines.foreach { line =>
-        lineParser ! ParseLine(requestId, line)
-      }
-    }
-    case ParseLineResponse(requestId, wordsCount) => {
-      processedLines(requestId) += 1
-      totalWords += wordsCount
-      println(s"Got response. Lines left ${totalLines(requestId) - processedLines(requestId)}")
-      if (totalLines(requestId) == processedLines(requestId)) {
-        println(s"Job Done. for requestId $requestId. Total words: $totalWords")
-      }
-    }
-    case _ => println("Unknown shit reveived")
-  }
-
-}
-
-/**
- * Receives parse line message and returs count of words in that line
- */
-class LineParser extends Actor {
-
-  val wordParser = context.actorOf(Props[WordsParser])
-  implicit val timeout = Timeout(5 seconds)
-
-  var totalWords = 0
-  var processedWords = 0
-
-  def receive = {
-    case ParseLine(requestId, line) => {
-      val words = line.split(" ")
-      totalWords += words.size
-      sender ! ParseLineResponse(requestId, totalWords)
-      //performSomeShit
-      //val result = words.map { wordParser ? ParseWord(requestId, _) }
-    }
-    case ParseWordResponse(requestId, charSize) => {
-      processedWords += 1
-      if (totalWords == processedWords) {
-
-      }
-    }
-  }
-}
-
-class WordsParser extends Actor {
-  def receive = {
-    case ParseWord(requestId, word) => sender ! ParseWordResponse(requestId, word.size)
-    case _                          =>
-  }
-}

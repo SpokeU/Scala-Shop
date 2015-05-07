@@ -2,25 +2,31 @@ package service
 
 import model.Category
 import play.api.Logger
-
+import model.Categories
+import model.CategoryFull
 
 object CategoryService {
 
   def getCategories = {
-    val allCategories = Category.findAll
+    val allCategories = Categories.findAll
 
-    def getSubs(subCat: List[Category]): List[Category] = {
+    def getSubs(subCat: Seq[CategoryFull]): Seq[CategoryFull] = {
       if (subCat == Nil) {
         subCat
       } else {
-        subCat.map { parent => {
-          val subCategories = allCategories.filter {_.parentId.getOrElse(0) == parent.id}
-          parent.copy(parent.id, parent.name, parent.imageLink, parent.parentId, getSubs(subCategories))
+        subCat.map { parent =>
+          {
+            val subCategories = allCategories.filter { _.parentId.getOrElse(0) == parent.id }.map { toFull(_) }
+            parent.copy(parent.id, parent.name, parent.image, parent.parentId, getSubs(subCategories))
           }
         }
       }
     }
-    getSubs(allCategories).filter(!_.parentId.isDefined)
+    getSubs(allCategories.map { toFull(_) }).filter(!_.parentId.isDefined)
+  }
+
+  def toFull(category: Category) = {
+    CategoryFull(category.id, category.name, category.image, category.parentId, Nil)
   }
 
 }

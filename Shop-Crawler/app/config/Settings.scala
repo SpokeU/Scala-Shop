@@ -12,7 +12,8 @@ object DeshevseSettings {
 
 class Shop(val name: String, val url: String)
 object Shop {
-  def fromString(s: String): Option[Shop] = { Seq(ROZETKA, DESHEVSHE, AMAZON).find { _.toString == s } }
+  def fromString(s: String): Option[Shop] = { getAllShops.find { _.toString == s } }
+  def getAllShops = Seq(ROZETKA, DESHEVSHE, AMAZON)
 }
 case object ROZETKA extends Shop("Rozetka", "http://rozetka.com.ua/")
 case object DESHEVSHE extends Shop("Deshevshe", "http://deshevshe.ua/")
