@@ -48,11 +48,10 @@ CREATE TABLE items_characteristics (
 
 # --- !Downs
 
-DROP TABLE brands;
-DROP TABLE items_characteristics;
-DROP TABLE item_images;
-DROP TABLE characteristics;
 DROP TABLE categories;
+DROP TABLE item_images;
+DROP TABLE items_characteristics;
 DROP TABLE items;
-
+DROP TABLE brands;
+DROP TABLE characteristics;
 

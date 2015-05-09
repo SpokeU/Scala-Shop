@@ -1,8 +1,8 @@
 package model
 
 import play.api.Play.current
-import scala.slick.driver.MySQLDriver.simple._
-import util.BaseDao
+import scala.slick.driver.PostgresDriver.simple._
+import util.CRUD
 
 case class Brand(id: Option[Long], name: String, imageUrl: String)
 
@@ -12,14 +12,14 @@ class Brands(tag: Tag) extends Table[Brand](tag, "brands") {
 
   def name = column[String]("name", O.NotNull)
 
-  def imageUrl = column[String]("image_link", O.Default("img/defaultBrand.png"))
+  def imageUrl = column[String]("image", O.Default("imgdefaultBrand.png"))
 
   def * = (id.?, name, imageUrl) <> (Brand.tupled, Brand.unapply)
 
 }
 
-object Brands extends BaseDao[Brand] {
-
+object Brands extends CRUD[Brand]{
+  
   val db = play.api.db.slick.DB
 
   val brands = TableQuery[Brands]
@@ -48,5 +48,4 @@ object Brands extends BaseDao[Brand] {
   def update(entry: Brand): Boolean = {
     db.withSession { implicit s => brands.filter(_.id === entry.id).update(entry) > 0 }
   }
-
 }

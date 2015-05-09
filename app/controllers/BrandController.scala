@@ -13,9 +13,7 @@ object BrandController extends CrudRestController {
 
   implicit val brandJsonFormat = Json.format[Brand]
 
-  def all: Action[AnyContent] = {
-    Action { Ok(Json.toJson(Brands.all)) }
-  }
+  def all: Action[AnyContent] = Action { Ok(Json.toJson(Brands.all)) }
 
   def create: Action[JsValue] = JsonModelAction[Brand] { implicit brand: Brand =>
     Ok(Json.toJson(Brands.create(brand)))
@@ -30,7 +28,6 @@ object BrandController extends CrudRestController {
   }
 
   def update(id: Long): Action[JsValue] = JsonModelAction[Brand] { implicit brand: Brand =>
-    println(brand)
     Ok(toJson(Brands.update(brand)))
   }
 

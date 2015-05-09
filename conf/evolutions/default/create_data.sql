@@ -23,5 +23,3 @@ INSERT INTO characteristics (name, value) VALUES('Martix', 'HDA+P');
 
 INSERT INTO items (name, price, description, brand_id, category_id) VALUES('Samsung SMART-TV',5000,'This is totaly cool tv', 2, 2);
 INSERT INTO items (name, price, description, brand_id, category_id) VALUES('HP-Compaq CQ-538745',2000,'Cool notebook', 3, 5);
-
-# ---!Downs

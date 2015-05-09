@@ -30,10 +30,12 @@ object Actions {
                 try {
                   action(model)
                 } catch {
-                  case e: Exception => BadRequest(Json.obj("errors" -> e.getMessage))
+                  case e: Exception => 
+                    e.printStackTrace()
+                    BadRequest(Json.obj("errors" -> e.getMessage))
                 }
               }
-              case errors => BadRequest(Json.obj("errors" -> errors))
+              case validationErrors => BadRequest(Json.obj("errors" -> validationErrors))
             }
           }
           case JsError(e) => BadRequest(Json.obj("errors" -> s"Invalid JSON format $e"))

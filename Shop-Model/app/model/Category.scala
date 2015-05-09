@@ -1,11 +1,11 @@
 package model
 
 import play.api.Play.current
-import scala.slick.driver.MySQLDriver.simple._
-import util.BaseDao
+import scala.slick.driver.PostgresDriver.simple._
+import util.CRUD
 
-case class Category(id: Option[Long], name: String, image: String, parentId: Option[Long])
-case class CategoryFull(id: Option[Long], name: String, image: String, parentId: Option[Long], subCategories: Seq[CategoryFull])
+case class Category(id: Option[Long], name: String, image: Option[String], parentId: Option[Long])
+case class CategoryFull(id: Option[Long], name: String, image: Option[String], parentId: Option[Long], subCategories: Seq[CategoryFull])
 
 class Categories(tag: Tag) extends Table[Category](tag, "categories") {
 
@@ -17,7 +17,7 @@ class Categories(tag: Tag) extends Table[Category](tag, "categories") {
 
   def parentId = column[Long]("parent_id")
 
-  def * = (id.?, name, image, parentId.?) <> (Category.tupled, Category.unapply)
+  def * = (id.?, name, image.?, parentId.?) <> (Category.tupled, Category.unapply)
 
 }
 
@@ -26,6 +26,10 @@ object Categories {
   val db = play.api.db.slick.DB
 
   val categories = TableQuery[Categories]
+
+  def all: List[Category] = {
+    db.withSession { implicit s => categories.list }
+  }
 
   def create(entry: Category): Category = {
     db.withSession { implicit s =>
@@ -38,10 +42,6 @@ object Categories {
 
   def findById(id: Long): Category = {
     db.withSession { implicit s => categories.filter(_.id === id).first }
-  }
-
-  def findAll: Seq[Category] = {
-    db.withSession { implicit s => categories.list }
   }
 
   def delete(id: Long): Boolean = {

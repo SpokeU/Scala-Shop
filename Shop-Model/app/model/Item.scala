@@ -1,13 +1,13 @@
 package model
 
-import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.driver.PostgresDriver.simple._
 import scala.slick.jdbc.GetResult
 import scala.slick.jdbc.{ StaticQuery => Q }
 import scala.slick.jdbc.StaticQuery.interpolation
 import scala.slick.lifted.ForeignKeyQuery
 
 import play.api.Play.current
-import util.BaseDao
+import util.CRUD
 
 case class Item(id: Option[Long], name: String, price: BigDecimal, description: String, brandId: Long, categoryId: Long)
 
@@ -34,7 +34,7 @@ class Items(tag: Tag) extends Table[Item](tag, "items") {
   }
 }
 
-object Items  {
+object Items extends CRUD[Item] {
 
   implicit val itemResult = GetResult(r => Item(r.nextLongOption(), r.<<, r.<<, r.<<, r.<<, r.<<))
 
@@ -46,8 +46,12 @@ object Items  {
     db.withSession { implicit s => Q.queryNA[Item]("SELECT * FROM items").list }
   }
 
-  def create(entry: Item): Option[Long] = {
-    db.withSession { implicit s => Some(items += entry) }
+  def create(entry: Item): Option[Item] = {
+    db.withSession { implicit s =>
+      val itemId = items.returning(items.map { _.id }) += entry
+      val newVal = Some(entry.copy(Some(itemId)))
+      newVal
+    }
   }
 
   def delete(id: Long): Boolean = {
@@ -103,6 +107,10 @@ object Items  {
     val allItems = sql"SELECT * FROM items WHERE name = $name".as[Item]
     val result = db.withSession { implicit s => allItems.list }
     println(result)
+  }
+
+  def query: TableQuery[_ <: scala.slick.lifted.AbstractTable[model.Item]] = {
+    items
   }
 
 }

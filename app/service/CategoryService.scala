@@ -8,7 +8,7 @@ import model.CategoryFull
 object CategoryService {
 
   def getCategories = {
-    val allCategories = Categories.findAll
+    val allCategories = Categories.all
 
     def getSubs(subCat: Seq[CategoryFull]): Seq[CategoryFull] = {
       if (subCat == Nil) {
