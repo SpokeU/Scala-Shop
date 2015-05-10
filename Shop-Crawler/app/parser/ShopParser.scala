@@ -17,30 +17,6 @@ object ShopParser {
 
   }
 
-  /*private def parseCategory(category: CategoryPage)(implicit jobId: Int): Unit = {
-    addToTotalCategories
-    saveCategory(category)
-    category.products match {
-      case Nil                            => category.subCategories.map { parseCategory(_) }
-      case products: Seq[ProductInfoPage] => products.map { parseProduct(_) }
-    }
-    addToProcessedCategories
-  }
-
-  private def parseProduct(product: ProductInfoPage)(implicit jobId: Int) = {
-    addToTotalProducts
-    saveProduct(product)
-    addToProcessedProducts
-  }
-
-  private def saveCategory(category: CategoryPage) = {
-    println(s"Saving category ${category.name}")
-  }
-
-  private def saveProduct(product: ProductInfoPage) = {
-    println(s"Saving product ${product.name}")
-  }*/
-
   private def getMainPage(shop: Shop): MainPage = {
     shop match {
       case ROZETKA   => ???

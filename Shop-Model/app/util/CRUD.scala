@@ -13,7 +13,7 @@ trait CRUD[T] {
 
   def all: List[T]
 
-  def create(entry: T): Option[T]
+  def create(entry: T): T
 
   def delete(id: Long): Boolean
 

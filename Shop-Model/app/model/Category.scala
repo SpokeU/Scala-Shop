@@ -21,7 +21,7 @@ class Categories(tag: Tag) extends Table[Category](tag, "categories") {
 
 }
 
-object Categories {
+object Categories extends CRUD[Category]{
 
   val db = play.api.db.slick.DB
 
@@ -35,12 +35,12 @@ object Categories {
     db.withSession { implicit s =>
       {
         val id = categories.returning(categories.map { _.id }) += entry
-        entry.copy(Some(id), entry.name, entry.image, entry.parentId)
+        entry.copy(Some(id))
       }
     }
   }
 
-  def findById(id: Long): Category = {
+  def find(id: Long): Category = {
     db.withSession { implicit s => categories.filter(_.id === id).first }
   }
 

@@ -6,7 +6,7 @@ CREATE TABLE brands (
     image VARCHAR(500) DEFAULT 'defaultBrandImage'
 );
 
-CREATE TABLE items (
+CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     price DECIMAL(10 , 2 ),
@@ -36,13 +36,13 @@ CREATE TABLE item_images (
 	id SERIAL PRIMARY KEY,
     image VARCHAR(500) DEFAULT 'defaultCategoryImage',
     item_id INT NOT NULL,
-    FOREIGN KEY (item_id) REFERENCES items(id)
+    FOREIGN KEY (item_id) REFERENCES products(id)
 );
 
-CREATE TABLE items_characteristics (
+CREATE TABLE products_characteristics (
 	item_id INT,
     characteristic_id INT,
-    FOREIGN KEY (item_id) REFERENCES items(id),
+    FOREIGN KEY (item_id) REFERENCES products(id),
     FOREIGN KEY (characteristic_id) REFERENCES characteristics(id)
 );
 
@@ -50,8 +50,8 @@ CREATE TABLE items_characteristics (
 
 DROP TABLE categories;
 DROP TABLE item_images;
-DROP TABLE items_characteristics;
-DROP TABLE items;
+DROP TABLE products_characteristics;
+DROP TABLE products;
 DROP TABLE brands;
 DROP TABLE characteristics;
 

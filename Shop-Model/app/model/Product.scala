@@ -9,11 +9,11 @@ import scala.slick.lifted.ForeignKeyQuery
 import play.api.Play.current
 import util.CRUD
 
-case class Item(id: Option[Long], name: String, price: BigDecimal, description: String, brandId: Long, categoryId: Long)
+case class Product(id: Option[Long], name: String, price: BigDecimal, description: String, brandId: Long, categoryId: Long)
 
-case class ItemFetched(id: Option[Long], name: String, price: BigDecimal, description: String, brand: Brand, category: Category, images: List[String])
+case class ProductFetched(id: Option[Long], name: String, price: BigDecimal, description: String, brand: Brand, category: Category, images: List[String])
 
-class Items(tag: Tag) extends Table[Item](tag, "items") {
+class Products(tag: Tag) extends Table[Product](tag, "products") {
 
   def id = column[Long]("id", O.PrimaryKey, O.NotNull, O.AutoInc)
 
@@ -27,30 +27,29 @@ class Items(tag: Tag) extends Table[Item](tag, "items") {
 
   def categoryId = column[Long]("category_id")
 
-  def * = (id.?, name, price, description, brandId, categoryId) <> (Item.tupled, Item.unapply)
+  def * = (id.?, name, price, description, brandId, categoryId) <> (Product.tupled, Product.unapply)
 
   def brand: ForeignKeyQuery[Brands, Brand] = {
     foreignKey("brand_id", brandId, TableQuery[Brands])(_.id)
   }
 }
 
-object Items extends CRUD[Item] {
+object Products extends CRUD[Product] {
 
-  implicit val itemResult = GetResult(r => Item(r.nextLongOption(), r.<<, r.<<, r.<<, r.<<, r.<<))
+  implicit val itemResult = GetResult(r => Product(r.nextLongOption(), r.<<, r.<<, r.<<, r.<<, r.<<))
 
   val db = play.api.db.slick.DB
 
-  val items = TableQuery[Items]
+  val items = TableQuery[Products]
 
-  def all: List[Item] = {
-    db.withSession { implicit s => Q.queryNA[Item]("SELECT * FROM items").list }
+  def all: List[Product] = {
+    db.withSession { implicit s => Q.queryNA[Product]("SELECT * FROM items").list }
   }
 
-  def create(entry: Item): Option[Item] = {
+  def create(entry: Product): Product = {
     db.withSession { implicit s =>
       val itemId = items.returning(items.map { _.id }) += entry
-      val newVal = Some(entry.copy(Some(itemId)))
-      newVal
+      entry.copy(Some(itemId))
     }
   }
 
@@ -58,11 +57,11 @@ object Items extends CRUD[Item] {
     db.withSession { implicit s => items.filter(_.id === id).delete > 0 }
   }
 
-  def find(id: Long): Item = {
+  def find(id: Long): Product = {
     db.withSession { implicit s => items.filter(_.id === id).first }
   }
 
-  def update(entry: Item): Boolean = {
+  def update(entry: Product): Boolean = {
     db.withSession { implicit s => items.filter(_.id === entry.id).update(entry) > 0 }
   }
 
@@ -84,32 +83,32 @@ object Items extends CRUD[Item] {
                   INNER JOIN categories category
                   ON category.id = item.category_id
       """
-    implicit val itemWithBrandResult = GetResult(r => ItemFetched(r.<<, r.<<, r.<<, r.<<, Brand(r.<<, r.<<, r.<<), Category(r.<<, r.<<, r.<<, r.<<), Nil))
-    db.withSession { implicit s => Q.queryNA[ItemFetched](sql).list }
+    implicit val itemWithBrandResult = GetResult(r => ProductFetched(r.<<, r.<<, r.<<, r.<<, Brand(r.<<, r.<<, r.<<), Category(r.<<, r.<<, r.<<, r.<<), Nil))
+    db.withSession { implicit s => Q.queryNA[ProductFetched](sql).list }
   }
 
   def joinTest = {
     val joinQ = items join Brands.brands on (_.brandId === _.id) filter { case (i, b) => b.name === "HP" }
-    val res = joinQ.mapResult { case (item, brand) => Item(item.id, item.name, item.price, item.description, item.brandId, item.categoryId) }
+    val res = joinQ.mapResult { case (item, brand) => Product(item.id, item.name, item.price, item.description, item.brandId, item.categoryId) }
 
     db.withSession { implicit s => println(res.list) }
 
     val joinQuery = for {
       i <- items
       b <- i.brand
-    } yield ((i.id.?, i.name, i.price, i.description, i.brandId, i.categoryId) <> (Item.tupled, Item.unapply))
+    } yield ((i.id.?, i.name, i.price, i.description, i.brandId, i.categoryId) <> (Product.tupled, Product.unapply))
     db.withSession { implicit s => println(joinQuery.list) }
   }
 
   def interpolationTest = {
     import scala.slick.jdbc.StaticQuery.interpolation
     val name = "HP-Compaq CQ-538745"
-    val allItems = sql"SELECT * FROM items WHERE name = $name".as[Item]
+    val allItems = sql"SELECT * FROM items WHERE name = $name".as[Product]
     val result = db.withSession { implicit s => allItems.list }
     println(result)
   }
 
-  def query: TableQuery[_ <: scala.slick.lifted.AbstractTable[model.Item]] = {
+  def query: TableQuery[_ <: scala.slick.lifted.AbstractTable[model.Product]] = {
     items
   }
 

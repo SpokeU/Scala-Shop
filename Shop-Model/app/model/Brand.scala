@@ -28,11 +28,11 @@ object Brands extends CRUD[Brand]{
     db.withSession { implicit s => brands.list }
   }
 
-  def create(entry: Brand): Option[Brand] = {
+  def create(entry: Brand): Brand = {
     db.withSession { implicit s =>
       {
         val id = brands.returning(brands.map { _.id }) += entry
-        Some(entry.copy(Some(id), entry.name, entry.imageUrl))
+        entry.copy(Some(id))
       }
     }
   }
